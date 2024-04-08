@@ -1,7 +1,40 @@
 ﻿@page "/"
+@using BlogApp.Client.Models
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+@code {
+    List<Card> cards = new List<Card>
+    {
+        new Card
+        {
+            Id =1,
+            ImageUrl = "/path/to/image1.jpg",
+            Title = "Title 1",
+            Description = "Description 1",
+            ReadMoreUrl = "/readmore"
+        },
+        new Card
+        {     Id =2,
 
-Welcome to your new app.
+            ImageUrl = "/path/to/image2.jpg",
+            Title = "Title 2",
+            Description = "Description 2",
+            ReadMoreUrl = "/readmore"
+        }
+        // Add more cards as needed
+    };
+}
+
+@foreach (var card in cards)
+{
+    <div class="card">
+        <img src="@card.ImageUrl" alt="@card.Title" class="card-image" />
+        <div class="card-content">
+            <h3>@card.Title</h3>
+            <p>@card.Description</p>
+            <a href="/blog/@card.Id" class="read-more-button">Read more</a>
+        </div>
+    </div>
+    <br />
+}
