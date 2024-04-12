@@ -1,4 +1,4 @@
-﻿namespace BlogApp.Client.Models
+﻿namespace BlogApp.Server.Models
 {
     // Card.cs
     public class Card

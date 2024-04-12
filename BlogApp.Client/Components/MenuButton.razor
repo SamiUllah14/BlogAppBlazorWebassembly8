@@ -1,0 +1,30 @@
+﻿<div class="dropdown" @onclick="ToggleUserMenu" @onmouseleave="HideUserMenu" @onclick:stopPropagation>
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="userMenuButton" aria-haspopup="true" aria-expanded="@userMenuVisible">
+       Menu
+    </button>
+    <div class="dropdown-menu" aria-labelledby="userMenuButton" style="display: @(userMenuVisible ? "block" : "none");">
+        <!-- Dropdown menu items -->
+        <a class="dropdown-item" href="/register">Register</a>
+        <a class="dropdown-item" href="#">Settings</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">Logout</a>
+    </div>
+</div>
+
+@code {
+    private bool userMenuVisible = false;
+
+    private async Task ToggleUserMenu()
+    {
+        userMenuVisible = !userMenuVisible;
+        if (userMenuVisible)
+        {
+            await Task.Delay(200);
+        }
+    }
+
+    private void HideUserMenu()
+    {
+        userMenuVisible = false;
+    }
+}

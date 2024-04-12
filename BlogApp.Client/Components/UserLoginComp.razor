@@ -1,0 +1,34 @@
+﻿@page "/login"
+@using BlogApp.Client.Models.Authentication
+@using System.ComponentModel.DataAnnotations
+
+<h3>User Login</h3>
+
+<EditForm Model="@userLogin" OnValidSubmit="@LoginUser">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <InputText id="email" @bind-Value="userLogin.Email" class="form-control" />
+        <ValidationMessage For="@(() => userLogin.Email)" />
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <InputText id="password" @bind-Value="userLogin.Password" class="form-control" type="password" />
+        <ValidationMessage For="@(() => userLogin.Password)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+</EditForm>
+
+@code {
+    private UserLogin userLogin = new UserLogin();
+    private string errorMessage = "";
+
+    private async Task LoginUser()
+    {
+        // You can add login logic here
+    }
+}

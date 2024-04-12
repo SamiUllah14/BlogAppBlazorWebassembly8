@@ -1,0 +1,66 @@
+﻿@page "/blog/{Id}"
+@inject IBlogCardDetail _blogCardDetailService
+@inject IBlogCard _blogCardService
+@using BlogApp.Client.Models
+@using BlogApp.Client.Services
+@using BlogApp.Client.Services.BlogCardDetailService
+
+
+
+<style>
+    .card {
+        /* Add styles for the card container */
+        margin-bottom: 20px;
+        /* Adjust as needed */
+    }
+
+    .card-image {
+        /* Add styles for the card image */
+        width: 100%; /* Ensure image fills its container */
+        height: auto; /* Maintain aspect ratio */
+        max-height: 50%; /* Limit maximum height */
+        display: block; /* Ensure the image is displayed as a block element */
+        margin-bottom: 10px; /* Add space below the image */
+    }
+</style>
+
+@if (card != null)
+{
+    <div class="card">
+        <div class="card-content">
+            <img src="@blogDetailImageUrl" alt="@blogPostTitle" class="card-image" />
+            <h3>@blogPostTitle</h3>
+            <p>@card.MoreDescription</p>
+
+
+        </div>
+    </div>
+}
+else
+{
+    <p>Blog post not found.</p>
+}
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private CardDetail card;
+    private string? blogPostTitle;
+    private string? blogDetailImageUrl;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        int cardId = Convert.ToInt32(Id);
+        card = await _blogCardDetailService.GetCardDetailAsync(cardId);
+
+        // Fetch the corresponding Card object to get the title
+        if (card != null)
+        {
+            var blogPost = await _blogCardService.GetCardsAsync(); // Corrected method call
+            blogPostTitle = blogPost.FirstOrDefault(c => c.Id == card.CardId)?.Title;
+            blogDetailImageUrl = blogPost.FirstOrDefault(c => c.Id == card.CardId)?.ImageUrl;
+
+        }
+    }
+}

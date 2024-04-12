@@ -1,0 +1,51 @@
+﻿@page "/Home"
+@using BlogApp.Client.Models
+@inject IBlogCard blogCardService
+
+<PageTitle>Home</PageTitle>
+
+<style>
+    .card {
+        /* Add styles for the card container */
+        margin-bottom: 20px;
+        /* Adjust as needed */
+    }
+
+    .card-image {
+        /* Add styles for the card image */
+        width: 20%; /* Ensure image fills its container */
+        height: auto; /* Maintain aspect ratio */
+        max-height: 200px; /* Limit maximum height */
+        display: block; /* Ensure the image is displayed as a block element */
+        margin-bottom: 10px; /* Add space below the image */
+    }
+</style>
+
+@if (cards != null)
+{
+    @foreach (var card in cards)
+    {
+        <div class="card">
+            <img src="@card.ImageUrl" alt="@card.Title" class="card-image" />
+            <div class="card-content">
+                <h3>@card.Title</h3>
+                <p>@card.Description</p>
+                <a href="/blog/@card.Id" class="read-more-button">Read more</a>
+            </div>
+        </div>
+        <br />
+    }
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    private List<Card> cards;
+
+    protected override async Task OnInitializedAsync()
+    {
+        cards = await blogCardService.GetCardsAsync();
+    }
+}
